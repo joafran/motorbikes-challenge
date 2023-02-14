@@ -20,13 +20,10 @@ const useLocalStorage = () => {
     const storedRequests = JSON.parse(
       localStorage.getItem("requestedSchedules") || "[]"
     ) as string[];
-    if (storedRequests) {
-      const isRequested = storedRequests.find((req) => req === id);
-      return isRequested
-        ? SCHEDULE_STATUS_ENUM.REQUESTED
-        : SCHEDULE_STATUS_ENUM.NOT_REQUESTED;
-    }
-    return SCHEDULE_STATUS_ENUM.NOT_REQUESTED;
+    const isRequested = storedRequests.find((req) => req === id);
+    return isRequested
+      ? SCHEDULE_STATUS_ENUM.REQUESTED
+      : SCHEDULE_STATUS_ENUM.NOT_REQUESTED;
   };
 
   useEffect(() => {
