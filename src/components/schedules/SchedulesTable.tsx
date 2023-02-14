@@ -1,17 +1,13 @@
-import { Title, Container, LoadingOverlay } from "@mantine/core";
-import { useState } from "react";
+import { Container, LoadingOverlay, Badge } from "@mantine/core";
+import useSchedules from "../../hooks/useSchedules";
 import Table from "../ui/Table";
+import ScheduleAction from "./ScheduleAction";
 
 const Schedules = () => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [schedules, setSchedules] = useState([]);
+  const { schedules, loading, requestSchedule, undoRequest } = useSchedules();
 
   if (loading) {
     return <LoadingOverlay visible />;
-  }
-
-  if (!schedules.length) {
-    return <Title>There was an error...</Title>;
   }
 
   return (
@@ -24,7 +20,42 @@ const Schedules = () => {
           w: "70%",
         }}
         data={schedules}
-        columns={[]}
+        columns={[
+          {
+            label: "Motorbikes",
+            key: "motorbikes",
+            render: (value, record) => <Badge size="lg">{value}</Badge>,
+          },
+          {
+            label: "Time",
+            key: "time",
+            render: (value, record) => (
+              <Badge color="cyan" size="lg">
+                {value}
+              </Badge>
+            ),
+          },
+          {
+            label: "Available",
+            key: "available",
+            render: (available, record) => (
+              <Badge w="100%" color={available ? "green" : "red"}>
+                {available ? "Yes" : "No"}
+              </Badge>
+            ),
+          },
+          {
+            label: "Actions",
+            key: "actions",
+            render: (_, record) => (
+              <ScheduleAction
+                schedule={record}
+                requestSchedule={requestSchedule}
+                undoRequest={undoRequest}
+              />
+            ),
+          },
+        ]}
       />
     </Container>
   );
