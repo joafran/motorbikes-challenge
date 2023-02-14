@@ -1,5 +1,11 @@
+import Header from "./components/header";
+
 const App: React.FC = () => {
-  return <div>alo :D</div>;
+  return (
+    <>
+      <Header />
+    </>
+  );
 };
 
 export default App;
